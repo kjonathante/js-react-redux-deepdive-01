@@ -1,5 +1,30 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import * as Redux from "redux";
+import * as ReactRedux from "react-redux";
+
+// Redux:
+const ADD = "ADD";
+
+const addMessage = message => {
+  return {
+    type: ADD,
+    message: message
+  };
+};
+
+const messageReducer = (state = [], action) => {
+  switch (action.type) {
+    case ADD:
+      return [...state, action.message];
+    default:
+      return state;
+  }
+};
+
+const store = Redux.createStore(messageReducer);
+const Provider = ReactRedux.Provider;
+const connect = ReactRedux.connect;
 
 class App extends React.Component {
   state = {
@@ -18,6 +43,7 @@ class App extends React.Component {
 
   handleFormSubmit = event => {
     event.preventDefault();
+    this.props.submitNewMessage(this.state.input);
     this.setState({
       input: ""
     });
@@ -34,10 +60,44 @@ class App extends React.Component {
         />
         <br />
         <button onClick={this.handleFormSubmit}>Submit</button>
+        <ul>
+          {this.props.messages.map((message, index) => (
+            <li key={index}>{message}</li>
+          ))}
+        </ul>
       </div>
     );
   }
 }
 
+// Change code above this line
+
+const mapStateToProps = state => {
+  return { messages: state };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    submitNewMessage: message => {
+      dispatch(addMessage(message));
+    }
+  };
+};
+
+const Container = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+class AppWrapper extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <Container />
+      </Provider>
+    );
+  }
+}
+
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);
+ReactDOM.render(<AppWrapper />, rootElement);
