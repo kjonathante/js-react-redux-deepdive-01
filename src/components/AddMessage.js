@@ -28,28 +28,23 @@ class AddMessage extends React.Component {
   render() {
     // console.log("inside render", this.props.messages);
     return (
-      <div>
-        <h2>Type in a new Message:</h2>
-        <input
-          name="input"
-          value={this.state.input}
-          onChange={this.handleInputChange}
-        />
-        <br />
+      <>
+        <div>
+          <input
+            name="input"
+            value={this.state.input}
+            onChange={this.handleInputChange}
+          />
+        </div>
         <button onClick={this.handleFormSubmit}>Submit</button>
-        <ul>
-          {this.props.messages.map((message, index) => (
-            <li key={index}>{message}</li>
-          ))}
-        </ul>
-      </div>
+      </>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return state;
-};
+// const mapStateToProps = state => {
+//   return state;
+// };
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -60,6 +55,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AddMessage);
