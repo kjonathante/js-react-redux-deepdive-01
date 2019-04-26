@@ -1,4 +1,4 @@
-import { ADD } from "../actionTypes";
+import { ADD, DELETE } from "../actionTypes";
 
 const initialState = [];
 
@@ -7,6 +7,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ADD:
       return [...state, action.message];
+    case DELETE:
+      return state.filter((element, index) => action.id !== index);
     default:
       return state;
   }
