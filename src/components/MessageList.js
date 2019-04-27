@@ -4,15 +4,16 @@ import { deleteMessage } from "../redux/actions";
 
 const MessageList = props => (
   <ul>
-    {props.messages.map((message, index) => (
-      <li key={index} onClick={() => props.deleteMessage(index)}>
-        {message}
+    {props.messages.allIds.map(id => (
+      <li key={id} onClick={() => props.deleteMessage(id)}>
+        {id} - {props.messages.byIds[id].message}
       </li>
     ))}
   </ul>
 );
 
 const mapStateToProps = state => {
+  console.log("mapStateToProps", state);
   return state;
 };
 
